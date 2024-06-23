@@ -24,6 +24,8 @@ load_kernel:
     mov dl,[BOOT_DISK]
     int 0x13
 
+	xor si,si
+	jc disk_fail
 text_mode:
     mov ah,0x00
     mov al, 0x3
@@ -78,7 +80,14 @@ start_protected_mode:
 
 
 	jmp KERNEL_LOCATION
-
-msg: db "booting .....",00
+disk_fail:
+	mov ah,0x0e
+	mov al,[si + msg]
+	int 10h
+	inc si
+	cmp al,00
+	jne disk_fail
+	jmp $
+msg: db "code: 0x00000001 _error while reading the bootdisk !",00
 times 510-($-$$) db 0x00
 dw 0xAA55

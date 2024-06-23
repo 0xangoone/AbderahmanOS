@@ -13,11 +13,15 @@ build/kernel_init.o: kernel/init.cpp
 build/kernel_entry.o: kernel/kernel_entry.asm
 	$(ASSEMBLER) -f elf kernel/kernel_entry.asm -o build/kernel_entry.o
 
-build/tty.o: kernel/tty.cpp
-	$(CC) -ffreestanding -m32 -g -c kernel/tty.cpp -o build/tty.o
+build/tty.o: kernel/drivers/tty.cpp
+	$(CC) -ffreestanding -m32 -g -c kernel/drivers/tty.cpp -o build/tty.o
 
-build/kernel.bin: build/kernel_entry.o build/kernel_init.o build/tty.o
-	$(LD) -o build/kernel.bin -Ttext 0x1000 build/kernel_entry.o build/kernel_init.o build/tty.o --oformat binary
+build/ports.o: kernel/drivers/ports.cpp
+	$(CC) -ffreestanding -m32 -g -c kernel/drivers/ports.cpp -o build/ports.o
+build/sound.o: kernel/drivers/sound.cpp
+	$(CC) -ffreestanding -m32 -g -c kernel/drivers/sound.cpp -o build/sound.o
+build/kernel.bin: build/kernel_entry.o build/kernel_init.o build/tty.o build/ports.o build/sound.o
+	$(LD) -o build/kernel.bin -Ttext 0x1000 build/kernel_entry.o build/kernel_init.o build/tty.o build/ports.o build/sound.o --oformat binary
 
 build/OS.bin: build/boot.bin build/kernel.bin
 	touch build/OS.bin
@@ -26,7 +30,7 @@ build/OS.bin: build/boot.bin build/kernel.bin
 	dd if=zero.bin of=build/OS.bin bs=512 seek=1024 conv=notrunc
 
 run: build
-	$(VM) -drive format=raw,file=build/OS.bin,index=0,if=floppy, -m 128M
+	$(VM) -device intel-hda -device hda-duplex -drive format=raw,file=build/OS.bin,index=0,if=floppy, -m 128M
 
 clean:
 	@echo "cleaning..."
