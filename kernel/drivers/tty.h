@@ -5,6 +5,8 @@ extern "C" void change_text_color( unsigned char for_color , unsigned char bac_c
 extern "C" void clear_tty();
 extern "C" void tty_print(char* msg);
 extern "C" void tty_udecimal_print(unsigned int number);
+extern "C" void tty_hex_print(unsigned int number);
+extern "C" void panic(char* error,char* details,int code);
 enum colors{
     black,
     blue,

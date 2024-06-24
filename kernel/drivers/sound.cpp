@@ -1,4 +1,5 @@
 #include "ports.h"
+#include "cpu.h"
 extern "C" void playsound(unsigned int nFrequence) {
     unsigned short x;
     unsigned char y;
@@ -16,4 +17,11 @@ extern "C" void playsound(unsigned int nFrequence) {
 extern "C" void speakerquiet() {
     unsigned char x = inb(0x61) & 0xFC;
     outb(0x61, x);
+}
+extern "C" void beep(int freq,int time){
+    if (freq == 0)  return;
+    if (time == 0)  return;
+    playsound(freq);
+    sleep(time);
+    speakerquiet();
 }

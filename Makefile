@@ -20,8 +20,12 @@ build/ports.o: kernel/drivers/ports.cpp
 	$(CC) -ffreestanding -m32 -g -c kernel/drivers/ports.cpp -o build/ports.o
 build/sound.o: kernel/drivers/sound.cpp
 	$(CC) -ffreestanding -m32 -g -c kernel/drivers/sound.cpp -o build/sound.o
-build/kernel.bin: build/kernel_entry.o build/kernel_init.o build/tty.o build/ports.o build/sound.o
-	$(LD) -o build/kernel.bin -Ttext 0x1000 build/kernel_entry.o build/kernel_init.o build/tty.o build/ports.o build/sound.o --oformat binary
+build/cpu.o: kernel/drivers/cpu.cpp
+	$(CC) -ffreestanding -m32 -g -c kernel/drivers/cpu.cpp -o build/cpu.o
+build/ps2keyboard.o: kernel/drivers/ps2keyboard.cpp
+	$(CC) -ffreestanding -m32 -g -c kernel/drivers/ps2keyboard.cpp -o build/ps2keyboard.o
+build/kernel.bin: build/kernel_entry.o build/kernel_init.o build/tty.o build/ports.o build/sound.o  build/cpu.o build/ps2keyboard.o
+	$(LD) -o build/kernel.bin -Ttext 0x1000 build/kernel_entry.o build/kernel_init.o build/tty.o build/ports.o build/ps2keyboard.o build/sound.o  build/cpu.o --oformat binary
 
 build/OS.bin: build/boot.bin build/kernel.bin
 	touch build/OS.bin
