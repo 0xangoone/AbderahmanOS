@@ -24,8 +24,10 @@ build/cpu.o: kernel/drivers/cpu.cpp
 	$(CC) -ffreestanding -m32 -g -c kernel/drivers/cpu.cpp -o build/cpu.o
 build/ps2keyboard.o: kernel/drivers/ps2keyboard.cpp
 	$(CC) -ffreestanding -m32 -g -c kernel/drivers/ps2keyboard.cpp -o build/ps2keyboard.o
-build/kernel.bin: build/kernel_entry.o build/kernel_init.o build/tty.o build/ports.o build/sound.o  build/cpu.o build/ps2keyboard.o
-	$(LD) -o build/kernel.bin -Ttext 0x1000 build/kernel_entry.o build/kernel_init.o build/tty.o build/ports.o build/ps2keyboard.o build/sound.o  build/cpu.o --oformat binary
+build/vga_graphic.o: kernel/drivers/vga_graphic.cpp
+	$(CC) -ffreestanding -m32 -g -c kernel/drivers/vga_graphic.cpp -o build/vga_graphic.o
+build/kernel.bin: build/kernel_entry.o build/kernel_init.o build/tty.o build/ports.o build/sound.o  build/cpu.o build/ps2keyboard.o build/vga_graphic.o
+	$(LD) -o build/kernel.bin -Ttext 0x1000 build/kernel_entry.o build/kernel_init.o build/tty.o build/ports.o build/ps2keyboard.o build/sound.o build/vga_graphic.o  build/cpu.o --oformat binary
 
 build/OS.bin: build/boot.bin build/kernel.bin
 	touch build/OS.bin

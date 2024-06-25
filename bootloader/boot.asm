@@ -28,7 +28,7 @@ load_kernel:
 	jc disk_fail
 text_mode:
     mov ah,0x00
-    mov al, 0x3
+	mov al , 0x3
     int 0x10
 gdt_init:
     cli

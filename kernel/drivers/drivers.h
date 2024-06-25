@@ -4,3 +4,4 @@
 #include "types.h"
 #include "cpu.h"
 #include "ps2keyboard.h"
+#include "vga_graphic.h"

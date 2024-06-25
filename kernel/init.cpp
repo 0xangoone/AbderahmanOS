@@ -1,18 +1,16 @@
 #include "drivers/drivers.h"
+#define bac_colr 0
+#define for_colr 15
+
 
 extern "C" void kernel_main() {
-    change_text_color(colors::blue,colors::yellow);
-    tty_print("Welcome to ZeroOS\n");
-    change_text_color(colors::black,colors::red);
-    tty_print("this os was developed by 0xAngoOne\n");
-
-
-    tty_print("write your name: ");
-    char* name = "           \0";
-    input(name ,11,false);
-    tty_print("hello mr ");tty_print(name);
-    panic("failed to read memory location .","an program try to write on a valid memory location",0x265EF);
-    reboot();
-
+    /*
+     *
+     *  init function
+     *
+     *  kernel main
+     *
+     *  The function is empty because the os is under development
+     */
     return;
 }
