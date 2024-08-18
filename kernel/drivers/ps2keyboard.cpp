@@ -31,7 +31,7 @@ extern "C" void input(char* ptr,int size,bool stop_on_enter){
                 if (i >= size){
                     return;
                 }
-                else if (!stop_on_enter && c == '\n'){
+                else if (stop_on_enter && c == '\n'){
                     tty_char_print(c);
                     return;
                 }
@@ -45,10 +45,8 @@ extern "C" void input(char* ptr,int size,bool stop_on_enter){
             }
             is_released = !is_released;
             int time = 1;
-            unsigned long freq = 200000000;
-            unsigned long cycles = freq * time;
-            unsigned long start = read_tsc();
-            while (read_tsc() - start < cycles);
+            unsigned long freq = 150000000;
+            sleep_f(time,freq);
         }
         return;
 }

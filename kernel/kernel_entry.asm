@@ -16,3 +16,4 @@ shutdown:
     mov al,0xF4
     out 0xB004,al
     hlt
+    jmp shutdown

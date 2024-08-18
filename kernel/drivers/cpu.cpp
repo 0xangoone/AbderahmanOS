@@ -12,9 +12,12 @@ extern "C" unsigned long read_tsc(){
     __asm__ __volatile__ ("rdtsc" : "=a"(lo),"=d"(hi));
     return (unsigned long)(hi << 32) | lo;
 }
-extern "C" void sleep(int time){
-    unsigned long freq = 2500000000;
+extern "C" void sleep_f(unsigned int time,unsigned long freq){
     unsigned long cycles = freq * time;
     unsigned long start = read_tsc();
     while (read_tsc() - start < cycles);
+}
+extern "C" void sleep(unsigned int time){
+    unsigned long freq = 2500000000;
+    sleep_f(time,freq);
 }

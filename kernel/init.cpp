@@ -1,8 +1,4 @@
 #include "drivers/drivers.h"
-#define bac_colr 0
-#define for_colr 15
-
-
 extern "C" void kernel_main() {
     /*
      *
@@ -10,7 +6,8 @@ extern "C" void kernel_main() {
      *
      *  kernel main
      *
-     *  The function is empty because the os is under development
-     */
+     *  
+    */
+    change_text_color(colors::white,colors::black);
     return;
 }
